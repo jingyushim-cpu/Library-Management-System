@@ -1,6 +1,3 @@
-// Madison Bryant
-// 09/17/2025
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
