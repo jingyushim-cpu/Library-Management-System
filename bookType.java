@@ -9,12 +9,16 @@ public class bookType {
     //prints the options for main menu
     public static void printMainOptions() {
         System.out.println(" ");
-        System.out.println("Welcome to Madd's Book Store");
+        System.out.println("Welcome to the Private Library");
         System.out.println("To make a selection enter the number and press enter");
-        System.out.println("1: Print a list of books in stock");
-        System.out.println("2: To see if a book is sold by the store (search)");
-        System.out.println("3: To update the number of copies of a book");
-        System.out.println("4: To a list of all books sold");
+        System.out.println("1: Print a List of Books Currently in the Library");
+        System.out.println("2: To See if a Book is in the Library (search)");
+        System.out.println("3: To Update the Number of Copies of a Book");
+        System.out.println("4: Print a List of ALL Books in the Library");
+        System.out.println("5: Enter Library Patron Information");
+        System.out.println("6: Library Patron Checkout");
+        System.out.println("7: Library Patron Checkout Return");
+        System.out.println("8: List ALL Patrons & Books Checked OUt");
         System.out.println("9:  Exit the program");
     }
 
@@ -165,9 +169,9 @@ public class bookType {
         books[listNumber].setNumberInStock(newCopies);
     }
 
-    //main code that calls all these functions
+//main code that calls all these functions
     public static void main(String[] args){
-        book[] bookList = new book[50];
+        Book[] bookList = new Book[50];
         int bookCount = 0;
         Scanner scnr = new Scanner(System.in);
         System.out.println("Please enter library book file name");
@@ -218,6 +222,14 @@ public class bookType {
                             optionPrint(bookList, bookCount);
                             printMainOptions();
                             userAction = scnr.nextInt();
+                        } else if (userAction == 5) {
+
+                        } else if (userAction == 6) {
+
+                        } else if (userAction == 7) {
+
+                        } else if (userAction == 8) {
+
                         } else {
                             System.out.println("Invalid option input. Please enter a valid option.");
                             printMainOptions();
