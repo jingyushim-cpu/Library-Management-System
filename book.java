@@ -1,4 +1,8 @@
+// Creator: Madison Bryant
+// 12/--/2025
+// Notes: Adapted Programming Assignment 1 Code
 //Creates the ability to store each book file when read from the txt.file
+
 public class book {
     private String title;
     private String isbn;
@@ -7,8 +11,9 @@ public class book {
     private double cost;
     private int numberInStock;
     private String author;
+    private Boolean checkStatus;
 
-    public book(String title, String isbn, String publisher, int yearPublished, double cost, int numberInStock, String author) {
+    public book(String title, String isbn, String publisher, int yearPublished, double cost, int numberInStock, String author, Boolean checkStatus) {
         this.title = title;
         this.isbn = isbn;
         this.publisher = publisher;
@@ -16,6 +21,7 @@ public class book {
         this.cost = cost;
         this.numberInStock = numberInStock;
         this.author = author;
+        this.checkStatus = checkStatus;
     }
 
     public void book() {
@@ -26,6 +32,7 @@ public class book {
         this.cost = 0.0;
         this.numberInStock = 0;
         this.author = "";
+        this.checkStatus = false;
     }
 
     public String getTitle(){
@@ -51,9 +58,13 @@ public class book {
     public int getNumberInStock(){
         return numberInStock;
     }
-//Used for the setNumberInStock to increase stock
+    //Used for the setNumberInStock to increase stock
     public void setNumberInStock(int newStockValue) {
         this.numberInStock += newStockValue;
+    }
+
+    public Boolean getCheckStatus(){
+        return checkStatus;
     }
 
     public String getAuthor(){
