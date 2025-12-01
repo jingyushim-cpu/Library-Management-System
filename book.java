@@ -35,40 +35,37 @@ public class book {
         this.checkStatus = false;
     }
 
-    public String getTitle(){
-        return title;
-    }
-
-    public String getIsbn(){
-        return isbn;
-    }
-
-    public String getPublisher(){
-        return publisher;
-    }
-
-    public int getYearPublished(){
-        return yearPublished;
-    }
-
-    public double getCost(){
-        return cost;
-    }
-
-    public int getNumberInStock(){
-        return numberInStock;
+    public void setCheckStatus(boolean status){
+        this.checkStatus = status;
     }
     //Used for the setNumberInStock to increase stock
     public void setNumberInStock(int newStockValue) {
         this.numberInStock += newStockValue;
     }
 
-    public Boolean getCheckStatus(){
-        return checkStatus;
+    //Getters
+    public String getTitle(){
+        return title;
     }
-
+    public String getIsbn(){
+        return isbn;
+    }
+    public String getPublisher(){
+        return publisher;
+    }
+    public int getYearPublished(){
+        return yearPublished;
+    }
+    public double getCost(){
+        return cost;
+    }
+    public int getNumberInStock(){
+        return numberInStock;
+    }
     public String getAuthor(){
         return author;
     }
+    public Boolean getCheckStatus(){
+        return checkStatus;
+    }
 }
-
