@@ -1,11 +1,10 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
-import java.util.Objects;
-import java.util.InputMismatchException;
+import java.util.*;
 
 public class bookType {
 
+    private static Set<Library_Patron> patrons = new HashSet<>();
     //prints the options for main menu
     public static void printMainOptions() {
         System.out.println(" ");
@@ -19,7 +18,7 @@ public class bookType {
         System.out.println("6: Library Patron Checkout");
         System.out.println("7: Library Patron Checkout Return");
         System.out.println("8: List ALL Patrons & Books Checked OUt");
-        System.out.println("9:  Exit the program");
+        System.out.println("9: Exit the program");
     }
 
     //prints the menu for the search options
@@ -169,6 +168,24 @@ public class bookType {
         books[listNumber].setNumberInStock(newCopies);
     }
 
+    //looks for patron
+    public static Library_Patron findPatron(String name){
+        for(Library_Patron p : patrons){
+            if(p.GetPatName().equals(name)){
+                return p;
+            }
+        }
+    }
+
+    public static void bookCheckout(book[] books, int count){}
+    public static void bookReturn(book[] books, int count){}
+    public static void displayPatrons(){
+        for(Library_Patron p : patrons){
+            p.PrintPat();
+            p.PrintCheckout();
+        }
+    }
+
     //main code that calls all these functions
     public static void main(String[] args){
         book[] bookList = new book[50];
@@ -223,13 +240,32 @@ public class bookType {
                             printMainOptions();
                             userAction = scnr.nextInt();
                         } else if (userAction == 5) {
+                            System.out.println("Enter library patron first and last name ");
+                            String patName = scnr.nextLine();
+                            System.out.println("Enter library patron ID ");
+                            int patID = scnr.nextInt();
+                            scnr.nextLine();
+                            if(findPatron(patName) == null){
+                                Library_Patron newPat = new  Library_Patron(patName, patID);
+                                patrons.add(newPat);
+                            }
 
                         } else if (userAction == 6) {
+                            System.out.println("Enter library patron name ");
+                            String patName = scnr.nextLine();
+                            System.out.println("Enter book to check out ");
+                            String bookName =  scnr.nextLine();
+
 
                         } else if (userAction == 7) {
+                            System.out.println("Enter library patron name");
+                            String patName = scnr.nextLine();
+                            System.out.println("Enter book to check in");
+                            String bookName =  scnr.nextLine();
+
 
                         } else if (userAction == 8) {
-
+                            displayPatrons();
                         } else {
                             System.out.println("Invalid option input. Please enter a valid option.");
                             printMainOptions();
