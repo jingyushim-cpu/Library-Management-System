@@ -24,7 +24,7 @@ public class book {
         this.checkStatus = checkStatus;
     }
 
-    public void book() {
+    public book() {
         this.title = "";
         this.isbn = "";
         this.publisher = "";
@@ -71,3 +71,4 @@ public class book {
         return author;
     }
 }
+
