@@ -191,6 +191,9 @@ public class bookType {
         int bookID = 0;
         boolean sucess = false;
         for(int i = 0; i < count; i++){
+            if(books[i].getTitle().equals(bookName)){
+                System.out.println("Found the book");
+            }
             if(books[i].getTitle().equals(bookName) && !books[i].getCheckStatus() && books[i].getNumberInStock() > 0){
                 sucess = true;
                 bookID = i;
@@ -202,7 +205,6 @@ public class bookType {
             System.out.println("The book is not in stock or not available...cannot complete action at this time");
             return;
         }
-
         if(pat == null){
             System.out.println("Enter library patron ID: ");
             int id = scnr.nextInt();
@@ -213,6 +215,7 @@ public class bookType {
         else{
             System.out.println("Library Patron " + patName + " exists");
         }
+        System.out.println("-------------------------------------");
 
         if(sucess){
             pat.CheckingOut(bookName);
@@ -278,13 +281,14 @@ public class bookType {
                 printMainOptions();
                 try {
                     int userAction = scnr.nextInt();
-                    validInput = true;
                     scnr.nextLine();
+                    validInput = true;
                     while (userAction != 9) {
                         if (userAction == 1) {
                             optionStockPrint(bookList, bookCount);
                             printMainOptions();
                             userAction = scnr.nextInt();
+                            scnr.nextLine();
                         } else if (userAction == 2) {
                             int bookSearched1 = -1;
                             printSearchOptions();
@@ -299,6 +303,7 @@ public class bookType {
                             printSingle(bookList, bookSearched1);
                             printMainOptions();
                             userAction = scnr.nextInt();
+                            scnr.nextLine();
 
                         } else if (userAction == 3) {
                             int bookSearched2 = searchBooks(bookList, bookCount);
@@ -312,10 +317,12 @@ public class bookType {
                             changeCopies(bookList, bookSearched2);
                             printMainOptions();
                             userAction = scnr.nextInt();
+                            scnr.nextLine();
                         } else if (userAction == 4) {
                             optionPrint(bookList, bookCount);
                             printMainOptions();
                             userAction = scnr.nextInt();
+                            scnr.nextLine();
                         } else if (userAction == 5) {
                             System.out.println("Enter library patron first and last name ");
                             String patName = scnr.nextLine();
@@ -326,21 +333,34 @@ public class bookType {
                                 Library_Patron newPat = new  Library_Patron(patName, patID);
                                 patrons.add(newPat);
                             }
+                            printMainOptions();
+                            userAction = scnr.nextInt();
+                            scnr.nextLine();
 
                         } else if (userAction == 6) {
                             bookCheckout(bookList, bookCount);
+                            printMainOptions();
+                            userAction = scnr.nextInt();
+                            scnr.nextLine();
 
 
                         } else if (userAction == 7) {
                             bookReturn(bookList, bookCount);
+                            printMainOptions();
+                            userAction = scnr.nextInt();
+                            scnr.nextLine();
 
 
                         } else if (userAction == 8) {
                             displayPatrons();
+                            printMainOptions();
+                            userAction = scnr.nextInt();
+                            scnr.nextLine();
                         } else {
                             System.out.println("Invalid option input. Please enter a valid option.");
                             printMainOptions();
                             userAction = scnr.nextInt();
+                            scnr.nextLine();
                         }
                     }
                 }
