@@ -1,7 +1,11 @@
-// Creator: Madison Bryant
-// 12/--/2025
-// Notes: Adapted Programming Assignment 1 Code
-//Creates the ability to store each book file when read from the txt.file
+/* Creator: Madison Bryant
+Co-Creator: Valor Guzman
+12/--/2025
+Notes: Adapted Programming Assignment 1 Code for Program 3
+Creates the ability to store each book file when read from the txt.file, take Patron
+information, store information in Hash Sets, and use of a menu to call information stored
+in the Hash Set.
+*/
 
 public class book {
     private String title;

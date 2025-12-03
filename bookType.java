@@ -41,7 +41,7 @@ public class bookType {
             return file;
         }
         catch (FileNotFoundException e){
-            System.err.println("Could not open input file" + e.getMessage());
+            System.err.println("Could not open input file: " + e.getMessage() + "Goodbye.");
             return null;
         }
     }
@@ -175,6 +175,7 @@ public class bookType {
                 return p;
             }
         }
+        return null;
     }
 
     public static void bookCheckout(book[] books, int count){}
