@@ -240,7 +240,6 @@ public class bookType {
         }
         else{
             System.out.println("Library Patron " + patName + " exists");
-            pat.PrintCheckout();
             if(!pat.getCheckout().contains(bookName)){
                 System.out.println("Patron does not have this book");
                 return;
@@ -262,6 +261,7 @@ public class bookType {
         for(Library_Patron p : patrons){
             p.PrintPat();
             p.PrintCheckout();
+            System.out.println();
         }
     }
 
