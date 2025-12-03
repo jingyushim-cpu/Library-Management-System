@@ -41,7 +41,7 @@ public class bookType {
             return file;
         }
         catch (FileNotFoundException e){
-            System.err.println("Could not open input file: " + e.getMessage() + "Goodbye.");
+            System.err.println("Could not open input file" + e.getMessage());
             return null;
         }
     }
@@ -178,8 +178,83 @@ public class bookType {
         return null;
     }
 
-    public static void bookCheckout(book[] books, int count){}
-    public static void bookReturn(book[] books, int count){}
+    public static void bookCheckout(book[] books, int count){
+        Scanner scnr = new Scanner(System.in);
+
+        System.out.println("Enter library patron name ");
+        String patName = scnr.nextLine();
+        System.out.println("Enter book to check out ");
+        String bookName =  scnr.nextLine();
+
+        Library_Patron pat = findPatron(patName);
+
+        int bookID = 0;
+        boolean sucess = false;
+        for(int i = 0; i < count; i++){
+            if(books[i].getTitle().equals(bookName) && !books[i].getCheckStatus() && books[i].getNumberInStock() > 0){
+                sucess = true;
+                bookID = i;
+                System.out.println("The book is in stock");
+                break;
+            }
+        }
+        if(!sucess){
+            System.out.println("The book is not in stock or not available...cannot complete action at this time");
+            return;
+        }
+
+        if(pat == null){
+            System.out.println("Enter library patron ID: ");
+            int id = scnr.nextInt();
+            scnr.nextLine();
+            pat = new Library_Patron(patName, id);
+            patrons.add(pat);
+        }
+        else{
+            System.out.println("Library Patron " + patName + " exists");
+        }
+
+        if(sucess){
+            pat.CheckingOut(bookName);
+            books[bookID].setCheckStatus(true);
+            books[bookID].setNumberInStock(-1);
+        }
+    }
+
+    public static void bookReturn(book[] books, int count){
+        Scanner scnr = new Scanner(System.in);
+
+        System.out.println("Enter library patron name ");
+        String patName = scnr.nextLine();
+        System.out.println("Enter book to check in ");
+        String bookName =  scnr.nextLine();
+
+        Library_Patron pat = findPatron(patName);
+
+        if(pat == null){
+            System.out.println("Library Patron " + patName + " does not exist");
+            return;
+        }
+        else{
+            System.out.println("Library Patron " + patName + " exists");
+            pat.PrintCheckout();
+            if(!pat.getCheckout().contains(bookName)){
+                System.out.println("Patron does not have this book");
+                return;
+            }
+            pat.CheckingIn(bookName);
+            for(int i = 0; i < count; i++){
+                if(books[i].getTitle().equals(bookName)){
+                    books[i].setCheckStatus(false);
+                    books[i].setNumberInStock(1);
+                    System.out.println(bookName + " checked in");
+                    break;
+                }
+            }
+        }
+    }
+
+
     public static void displayPatrons(){
         for(Library_Patron p : patrons){
             p.PrintPat();
@@ -204,6 +279,7 @@ public class bookType {
                 try {
                     int userAction = scnr.nextInt();
                     validInput = true;
+                    scnr.nextLine();
                     while (userAction != 9) {
                         if (userAction == 1) {
                             optionStockPrint(bookList, bookCount);
@@ -252,17 +328,11 @@ public class bookType {
                             }
 
                         } else if (userAction == 6) {
-                            System.out.println("Enter library patron name ");
-                            String patName = scnr.nextLine();
-                            System.out.println("Enter book to check out ");
-                            String bookName =  scnr.nextLine();
+                            bookCheckout(bookList, bookCount);
 
 
                         } else if (userAction == 7) {
-                            System.out.println("Enter library patron name");
-                            String patName = scnr.nextLine();
-                            System.out.println("Enter book to check in");
-                            String bookName =  scnr.nextLine();
+                            bookReturn(bookList, bookCount);
 
 
                         } else if (userAction == 8) {
