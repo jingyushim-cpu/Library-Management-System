@@ -5,6 +5,25 @@ Notes: Adapted Programming Assignment 1 Code for Program 3
 Creates the ability to store each book file when read from the txt.file, take Patron
 information, store information in Hash Sets, and use of a menu to call information stored
 in the Hash Set.
+
+Assumed left to Impliment:
+5. Create a hash set to represent all books currently checked out
+7. Add basic functions and menu choices:
+    a. Add a library patron. If the library patron already exists, display a message and
+do not add the duplicate
+    b. Check out a book:
+▪ Request the library patron name wishing to check out the book. If the
+library patron is not in the existing list, add the patron. Request a book
+title and search for the book to check out. If the book is found and is not
+checked out by another library patron, allow check out by the current
+library patron. Also add this book to a general set of books checked out
+    c . Check in a book:
+▪ Request the library patron name wishing to check in the book. If the
+library patron is not in the existing list, display a message. Request the
+book title to check in, remove the book from the library patron’s checked
+out list and the general checked out list
+    d. Print a list of all library patrons and all books checked out
+
 */
 
 public class book {
