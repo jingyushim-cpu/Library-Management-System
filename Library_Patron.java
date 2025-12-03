@@ -16,6 +16,16 @@ public class Library_Patron {
     private int PatID;
     private Set<String> Checkout = new HashSet<>();
 
+    public Library_Patron(){
+        this.PatName = "";
+        this.PatID = 0;
+    }
+
+    public Library_Patron(String PatName, int PatID){
+        this.PatName = PatName;
+        this.PatID = PatID;
+    }
+
     //Printing Patron Info
     public void PrintPat(){
         System.out.println("Patron Name:" + PatName );
