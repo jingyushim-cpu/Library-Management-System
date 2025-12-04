@@ -1,8 +1,3 @@
-// Creator: Madison Bryant
-// 12/--/2025
-// Notes: Adapted Programming Assignment 1 Code
-//Creates the ability to store each book file when read from the txt.file
-
 /*
     Program Name: book.java
     Creator: Madison Bryant, Jin-gyu Shim
