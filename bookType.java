@@ -1,6 +1,6 @@
 /*
     Program Name: bookType.java
-    Author: Jin-gyu Shim
+    Creator: Jin-gyu Shim, Madison Bryant, Valor Guzman
     Date: 12/03/2025
     Input: Requests user for a file name, a number for menu selection, book information,
            and patron information
