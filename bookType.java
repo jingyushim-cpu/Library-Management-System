@@ -4,7 +4,7 @@ import java.util.*;
 
 public class bookType {
 
-    private static Set<Library_Patron> patrons = new HashSet<>();
+    private static List<Library_Patron> patrons = new ArrayList<>();
     //prints the options for main menu
     public static void printMainOptions() {
         System.out.println(" ");
@@ -17,7 +17,7 @@ public class bookType {
         System.out.println("5: Enter Library Patron Information");
         System.out.println("6: Library Patron Checkout");
         System.out.println("7: Library Patron Checkout Return");
-        System.out.println("8: List ALL Patrons & Books Checked OUt");
+        System.out.println("8: List ALL Patrons & Books Checked Out");
         System.out.println("9: Exit the program");
     }
 
@@ -81,6 +81,7 @@ public class bookType {
             System.out.println("Author: " + books[i].getAuthor());
             System.out.println("Cost: $" + books[i].getCost());
             System.out.println("Number In Stock: " + books[i].getNumberInStock());
+            if(books[i].getCheckStatus()) System.out.println("----------Checked out---------");
             System.out.println("------------------------------");
         }
 
@@ -91,7 +92,7 @@ public class bookType {
         System.out.println("------------------------------");
         boolean foundInStock = false;
         for (int i = 0; i < actualCount; i++){
-            if (books[i].getNumberInStock() > 0) {
+            if (books[i].getNumberInStock() > 0 && !books[i].getCheckStatus()) {
                 foundInStock = true;
                 System.out.println("Title: " + books[i].getTitle());
                 System.out.println("ISBN: " + books[i].getIsbn());
@@ -120,7 +121,8 @@ public class bookType {
             System.out.println("Input the ISBN: ");
             userSearch = userScnr.nextLine().toLowerCase();
             for (bookID = 0; bookID < books.length; bookID++) {
-                if (Objects.equals(books[bookID].getIsbn().toLowerCase(), userSearch)) {
+                if (Objects.equals(books[bookID].getIsbn().toLowerCase(), userSearch)
+                && !books[bookID].getCheckStatus()) {
                     return bookID;
                 }
             }
@@ -130,7 +132,8 @@ public class bookType {
             System.out.println("Input the Title: ");
             userSearch = userScnr.nextLine().toLowerCase();
             for (bookID = 0; bookID < books.length; bookID++) {
-                if (Objects.equals(books[bookID].getTitle().toLowerCase(), userSearch)) {
+                if (Objects.equals(books[bookID].getTitle().toLowerCase(), userSearch)
+                && !books[bookID].getCheckStatus()) {
                     return bookID;
                 }
             }
@@ -139,12 +142,13 @@ public class bookType {
             System.out.println("Input the Author (Last, First): ");
             userSearch = userScnr.nextLine().toLowerCase();
             for (bookID = 0; bookID < books.length; bookID++) {
-                if (Objects.equals(books[bookID].getAuthor().toLowerCase(), userSearch)) {
+                if (Objects.equals(books[bookID].getAuthor().toLowerCase(), userSearch)
+                && !books[bookID].getCheckStatus()) {
                     return bookID;
                 }
             }
         }
-        return bookID;
+        return -1;
     }
 
     //only prints a single book file based on search function
@@ -176,6 +180,13 @@ public class bookType {
             }
         }
         return null;
+    }
+
+    public static void addPatron(Library_Patron newPat){
+        if(findPatron(newPat.GetPatName()) == null){
+            patrons.add(newPat);
+            Collections.sort(patrons);
+        }
     }
 
     public static void bookCheckout(book[] books, int count){
@@ -210,7 +221,7 @@ public class bookType {
             int id = scnr.nextInt();
             scnr.nextLine();
             pat = new Library_Patron(patName, id);
-            patrons.add(pat);
+            addPatron(pat);
         }
         else{
             System.out.println("Library Patron " + patName + " exists");
@@ -220,7 +231,7 @@ public class bookType {
         if(sucess){
             pat.CheckingOut(bookName);
             books[bookID].setCheckStatus(true);
-            books[bookID].setNumberInStock(-1);
+            //books[bookID].setNumberInStock(-1);
         }
     }
 
@@ -248,7 +259,7 @@ public class bookType {
             for(int i = 0; i < count; i++){
                 if(books[i].getTitle().equals(bookName)){
                     books[i].setCheckStatus(false);
-                    books[i].setNumberInStock(1);
+                    //books[i].setNumberInStock(1);
                     System.out.println(bookName + " checked in");
                     break;
                 }
@@ -258,7 +269,9 @@ public class bookType {
 
 
     public static void displayPatrons(){
-        for(Library_Patron p : patrons){
+        Iterator<Library_Patron> iter = patrons.iterator();
+        while(iter.hasNext()){
+            Library_Patron p = iter.next();
             p.PrintPat();
             p.PrintCheckout();
             System.out.println();
@@ -292,29 +305,42 @@ public class bookType {
                         } else if (userAction == 2) {
                             int bookSearched1 = -1;
                             printSearchOptions();
-                            userAction = scnr.nextInt();
-                            if ((userAction == 1) || (userAction == 2) || (userAction == 3)) {
-                                bookSearched1 = searchBooks(bookList, userAction);
-                            } else {
-                                System.out.println("Invalid Input, Try Again");
-                                printSearchOptions();
-                                userAction = scnr.nextInt();
+                            int searchChoice = scnr.nextInt();
+                            scnr.nextLine();
+                            if(searchChoice < 1 || searchChoice > 3){
+                                System.out.println("Invalid input");
                             }
-                            printSingle(bookList, bookSearched1);
+                            else{
+                                bookSearched1 = searchBooks(bookList, searchChoice);
+                                if(bookSearched1 == -1){
+                                    System.out.println("Book not found or checked out");
+                                }
+                                else{
+                                    printSingle(bookList, bookSearched1);
+                                }
+                            }
                             printMainOptions();
                             userAction = scnr.nextInt();
                             scnr.nextLine();
 
                         } else if (userAction == 3) {
-                            int bookSearched2 = searchBooks(bookList, bookCount);
-                            if ((userAction == 1) || (userAction == 2) || (userAction == 3)) {
-                                bookSearched2 = searchBooks(bookList, userAction);
-                            } else {
-                                System.out.println("Invalid Input, Try Again");
-                                printSearchOptions();
-                                userAction = scnr.nextInt();
+                            printSearchOptions();
+                            int searchChoice = scnr.nextInt();
+                            scnr.nextLine();
+
+                            if(searchChoice < 1 || searchChoice > 3){
+                                System.out.println("Invalid input");
                             }
-                            changeCopies(bookList, bookSearched2);
+                            else{
+                                int bookSearched2 = searchBooks(bookList, searchChoice);
+                                if(bookSearched2 == -1){
+                                    System.out.println("Book not found or checked out");
+                                }
+                                else{
+                                    changeCopies(bookList, bookSearched2);
+                                }
+                            }
+
                             printMainOptions();
                             userAction = scnr.nextInt();
                             scnr.nextLine();
@@ -331,7 +357,7 @@ public class bookType {
                             scnr.nextLine();
                             if(findPatron(patName) == null){
                                 Library_Patron newPat = new  Library_Patron(patName, patID);
-                                patrons.add(newPat);
+                                addPatron(newPat);
                             }
                             printMainOptions();
                             userAction = scnr.nextInt();
