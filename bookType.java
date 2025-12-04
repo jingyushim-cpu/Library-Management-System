@@ -1,11 +1,31 @@
+/*
+    Program Name: bookType.java
+    Author: Jin-gyu Shim
+    Date: 12/03/2025
+    Input: Requests user for a file name, a number for menu selection, book information,
+           and patron information
+    Output: displays menu selection, book information, search results, books in stock,
+            patron information, books checked out
+    Description: This class loads books from a file, allows user to search for books,
+            update stocks, check out/in books, display all books, display all books in stock,
+            display patron information, and display books checked out.
+
+ */
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
 public class bookType {
 
+    //An arrayList for all patrons in the library
     private static List<Library_Patron> patrons = new ArrayList<>();
-    //prints the options for main menu
+
+    /*
+        Prints the options for main menu
+        precondition: none
+        postcondition: outputs menu selection
+     */
     public static void printMainOptions() {
         System.out.println(" ");
         System.out.println("Welcome to the Private Library");
@@ -21,7 +41,11 @@ public class bookType {
         System.out.println("9: Exit the program");
     }
 
-    //prints the menu for the search options
+    /*
+        prints the menu for the search options
+        precondition: none
+        postcondition: outputs submenu for search options
+     */
     public static void printSearchOptions() {
         System.out.println(" ");
         System.out.println("Enter");
@@ -31,7 +55,12 @@ public class bookType {
 
     }
 
-    //opens txt file
+    /*
+        opens txt file
+        precondition: fileName contains the right string value
+        postcondition: file is opened and returned if file exits, if not, exception is thrown
+                        and exception message is displayed
+     */
     public static File openFile(String fileName){
         try{
             File file = new File(fileName);
@@ -46,7 +75,12 @@ public class bookType {
         }
     }
 
-    //loads data into class for usage in code
+    /*
+        loads data into class for usage in code
+        precondition: file is valid
+        postcondition: returns the number of books, books array is
+                    filled with objects with all data member initialized
+     */
     public static int loadBookData(File file, book[] books) {
         int count = 0;
         try (Scanner fileScanner = new Scanner(file)) {
@@ -70,7 +104,11 @@ public class bookType {
         return count;
     }
 
-    //prints the entire list of books in the file
+    /*
+        prints the entire list of books in the file
+        precondition: books array is filled with book objects.
+        postcondition: outputs entire list of books, as well as checked out message if checked out
+     */
     public static void optionPrint(book[] books, int actualCount){
         System.out.println("------------------------------");
         for (int i = 0; i < actualCount; i++){
@@ -87,7 +125,11 @@ public class bookType {
 
     }
 
-    //prints ONLY books in stock, books that are 0 stock do not print
+    /*
+        prints ONLY books in stock, books that are 0 stock or checked out do not print
+        precondition: books array is filled with book objects
+        postcondition: outputs book objects that are available for check out.
+     */
     public static void optionStockPrint(book[] books, int actualCount){
         System.out.println("------------------------------");
         boolean foundInStock = false;
@@ -111,7 +153,11 @@ public class bookType {
 
     }
 
-    //searches the file based on input
+    /*
+        searches for the book based on input
+        precondition: books array is filled with book objects, searchOption contains a valid integer
+        postcondition: if the book is found, bookID is returned, if not, returns -1
+     */
     public static int searchBooks(book[] books, int searchOption) {
         Scanner userScnr = new Scanner(System.in);
         int bookID = -1;
@@ -151,7 +197,11 @@ public class bookType {
         return -1;
     }
 
-    //only prints a single book file based on search function
+    /*
+        only prints a single book file based on search function
+        precondition: books[listNumber] is valid
+        postcondition: outputs books[listNumber] information
+     */
     public static void printSingle(book[] books, int listNumber){
         System.out.println("------------------------------");
         System.out.println("Title: " + books[listNumber].getTitle());
@@ -164,7 +214,11 @@ public class bookType {
         System.out.println("------------------------------");
     }
 
-    //adds to the copies using the setNumberInStock() function in book.java
+    /*
+        adds to the copies using the setNumberInStock() function in book.java
+        precondition: books[listNumber] exists
+        postcondition: numberInStock of books[listNumber] is added by the input number from the user
+     */
     public static void changeCopies(book[] books, int listNumber){
         Scanner userInput = new Scanner(System.in);
         System.out.println("Enter the amounted restocked: ");
@@ -172,7 +226,11 @@ public class bookType {
         books[listNumber].setNumberInStock(newCopies);
     }
 
-    //looks for patron
+    /*
+        looks for patron
+        precondition: parameter name is valid
+        postcondition: returns Library_Patron object if found, returns null otherwise
+     */
     public static Library_Patron findPatron(String name){
         for(Library_Patron p : patrons){
             if(p.GetPatName().equals(name)){
@@ -182,6 +240,11 @@ public class bookType {
         return null;
     }
 
+    /*
+        adds patron to patrons ArrayList if not already in the list
+        precondition: newPat is valid
+        postcondition: newPat is added to patrons ArrayList if not alreay, the list is sorted
+     */
     public static void addPatron(Library_Patron newPat){
         if(findPatron(newPat.GetPatName()) == null){
             patrons.add(newPat);
@@ -189,6 +252,13 @@ public class bookType {
         }
     }
 
+    /*
+        checks out book if book is available
+        if patron doesn't exist, adds patron to patrons ArrayList
+        precondition: books array is filled with book objects
+        postcondition: if book is available, book is checked out, if not, outputs the message
+                       if patron doesn't exist, adds patron to patrons ArrayList.
+     */
     public static void bookCheckout(book[] books, int count){
         Scanner scnr = new Scanner(System.in);
 
@@ -201,6 +271,7 @@ public class bookType {
 
         int bookID = 0;
         boolean sucess = false;
+        //for loop to find the book
         for(int i = 0; i < count; i++){
             if(books[i].getTitle().equals(bookName)){
                 System.out.println("Found the book");
@@ -212,10 +283,14 @@ public class bookType {
                 break;
             }
         }
+
+        //book is not available
         if(!sucess){
             System.out.println("The book is not in stock or not available...cannot complete action at this time");
             return;
         }
+
+        //patron is not in the list
         if(pat == null){
             System.out.println("Enter library patron ID: ");
             int id = scnr.nextInt();
@@ -223,11 +298,13 @@ public class bookType {
             pat = new Library_Patron(patName, id);
             addPatron(pat);
         }
+        //patron already exists
         else{
             System.out.println("Library Patron " + patName + " exists");
         }
         System.out.println("-------------------------------------");
 
+        //book is available for checkout
         if(sucess){
             pat.CheckingOut(bookName);
             books[bookID].setCheckStatus(true);
@@ -235,6 +312,13 @@ public class bookType {
         }
     }
 
+    /*
+        book is returned if it was checked out
+        if patron doesn't exist or patron doesn't have the book, exits the function
+        precondition: books array is filled with book objects
+        postcondition: book is checked in if the patron had the book
+                       if patron doesn't exist or doesn't have the book, outputs the message
+     */
     public static void bookReturn(book[] books, int count){
         Scanner scnr = new Scanner(System.in);
 
@@ -245,12 +329,14 @@ public class bookType {
 
         Library_Patron pat = findPatron(patName);
 
+        //if patron doesn't exist
         if(pat == null){
             System.out.println("Library Patron " + patName + " does not exist");
             return;
         }
         else{
             System.out.println("Library Patron " + patName + " exists");
+            //if patron doesn't have the book
             if(!pat.getCheckout().contains(bookName)){
                 System.out.println("Patron does not have this book");
                 return;
@@ -268,6 +354,11 @@ public class bookType {
     }
 
 
+    /*
+        displays all patron using iterator
+        precondition: patrons ArrayList has patrons
+        postcondition: outputs patrons' names and book checked out
+     */
     public static void displayPatrons(){
         Iterator<Library_Patron> iter = patrons.iterator();
         while(iter.hasNext()){
@@ -278,7 +369,7 @@ public class bookType {
         }
     }
 
-    //main code that calls all these functions
+    //main
     public static void main(String[] args){
         book[] bookList = new book[50];
         int bookCount = 0;
