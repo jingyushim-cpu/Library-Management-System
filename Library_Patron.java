@@ -11,7 +11,7 @@ Uses include: Creating a Library Patron's profile including their Name and ID as
 */
 
 //Class for Patron Information
-public class Library_Patron {
+public class Library_Patron implements Comparable<Library_Patron>{
     private String PatName;
     private int PatID;
     private Set<String> Checkout = new HashSet<>();
@@ -45,13 +45,19 @@ public class Library_Patron {
         }
     }
 
+    @Override
+    public int compareTo(Library_Patron otherPatron){
+        return this.PatName.compareTo(otherPatron.PatName);
+    }
+
     //Add book to Checkout HashSet
     public void CheckingOut(String book){ Checkout.add(book); }
 
     //Check in a book removing it from the Checkout HashSet
     public void CheckingIn(String book){ Checkout.remove(book); }
 
-    //Getters and setters for PatName and PatID
+    //Getters and setters
+    public Set<String> getCheckout(){ return Checkout; }
     public String GetPatName(){ return PatName; }
     public int GetPatID(){ return PatID; }
     public void SetPatName(String name) { PatName = name;}
