@@ -1,38 +1,58 @@
+/*
+Program name: Library_Patron.java
+Creator: Valor Guzman, Jin-gyu Shim
+Date: 12/03/2025
+Input: requests user for library patron na,e patron ID and book titles
+        for checkout and check in
+Output: displays patron information and books that are checked out. 
+Description: This class defines a library patron. It maintains name, ID,
+        and a HashSet of books checked out.
+*/
+
 import java.util.HashSet;
 import java.util.Set;
 
-/*
-Creator: Valor Guzman
-Due: Dec 3rd
-Inputs include: String for Patron Name and Books being Checked out
-Outputs include: Patron Name, Patron ID, and Books being Checked out
-Uses include: Creating a Library Patron's profile including their Name and ID as well as creating the HashSet that
-    holds which books they checked out.
-*/
-
-//Class for Patron Information
 public class Library_Patron implements Comparable<Library_Patron>{
     private String PatName;
     private int PatID;
     private Set<String> Checkout = new HashSet<>();
 
+
+    /*
+        Default constructor
+        precondition: none
+        postcondition: initializes all data members to default values
+     */
     public Library_Patron(){
         this.PatName = "";
         this.PatID = 0;
     }
 
+    /*
+        Overloaded constructor
+        precondition: none
+        postcondition: initializes all data members with given values
+     */
     public Library_Patron(String PatName, int PatID){
         this.PatName = PatName;
         this.PatID = PatID;
     }
 
-    //Printing Patron Info
+    /*
+        Prints Patron's information
+        precondition: data members contain valid values
+        postcondition: prints patron's name and ID
+     */
     public void PrintPat(){
-        System.out.println("Patron Name:" + PatName );
-        System.out.println("Patron ID:" + PatID);
+        System.out.println("Patron Name: " + PatName );
+        System.out.println("Patron ID: " + PatID);
     }
 
-    //Print Books in Checkout HashSet list
+    /*
+        Prints patron's name and books he checked out
+        precondition: Checkout HashSet contains the book title if it was checked out
+        postcondition: prints patron's name, and books that were checked out if any
+     */
     public void PrintCheckout(){
         if(Checkout.isEmpty()){
             System.out.println(PatName + ": No books are checked out");
@@ -45,15 +65,28 @@ public class Library_Patron implements Comparable<Library_Patron>{
         }
     }
 
+    /*
+        Compares this patron to otherPatron by name
+        precondition: otherPatron has PatName initialized
+        postcondition: returns integer indicating alphabetical order
+     */
     @Override
     public int compareTo(Library_Patron otherPatron){
         return this.PatName.compareTo(otherPatron.PatName);
     }
 
-    //Add book to Checkout HashSet
+    /*
+        Adds a book to the patron's Checkout HashSet
+        precondition: book is not null
+        postcondition: adds book to the Checkout HashSet.
+     */
     public void CheckingOut(String book){ Checkout.add(book); }
 
-    //Check in a book removing it from the Checkout HashSet
+    /*
+        Removes a book from the patron's Checkout HashSet
+        precondition: the patron's Checkout HashSet contains the book
+        postcondition: removes book from the Checkout HashSet
+     */
     public void CheckingIn(String book){ Checkout.remove(book); }
 
     //Getters and setters
